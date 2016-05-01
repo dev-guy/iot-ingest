@@ -5,7 +5,7 @@ var ascoltatore = {
   redis: require('redis'),
   db: 12,
   port: 6379,
-  return_buffers: true, // to handle binary payloads
+  // return_buffers: true, // to handle binary payloads
   host: "localhost"
 };
 
@@ -26,7 +26,7 @@ server.on('clientConnected', function(client) {
 
 // fired when a message is received
 server.on('published', function(packet, client) {
-  console.log('Published', packet.payload);
+  console.log('Published', JSON.stringify(packet.payload));
 });
 
 // fired when the mqtt server is ready
