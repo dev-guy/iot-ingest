@@ -3,24 +3,26 @@
 // Web Service that accepts POST
 
 const Hapi = require('hapi');
+const mqtt = require('mqtt')
 
-var mqtt = require('mqtt')
-
-mqttClient = mqtt.createClient(1883, 'localhost');
 
 // Create a server with a host and port
 const server = new Hapi.Server();
 server.connection({
-  port: 3000
+  port: 8000,
+  host: 'localhost'
 });
+
+let mqttClient = mqtt.connect('mqtt://localhost');
 
 // Add the route
 server.route({
   method: 'POST',
-  path:'/sensor/{partnerId?}/{apiKey?}',
+  // path:'/sensor/{partnerId?}/{apiKey?}',
+  path:'/ingest',
   handler: function (request, reply) {
-        client.publish('iot', JSON.stringify(request.payload)
-        reply({});
+    mqttClient.publish('iot2', JSON.stringify(request.payload), {retain: false, qos: 1})
+    reply({});
   }
 });
 
