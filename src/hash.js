@@ -1,7 +1,7 @@
 const CryptoJS = require("crypto-js");
 
-function hashIt(message, hash) {
-  var hash = CryptoJS.SHA256(message.concat(hash))
+function hashIt(message, salt) {
+  let hash = CryptoJS.SHA256(message.concat(salt))
   return hash.toString();
 }
 
