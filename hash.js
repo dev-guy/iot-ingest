@@ -9,7 +9,7 @@ function randomStr(m) {
   if (m < 9) {
     m = 9;
   }
-  var s = '', r = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz_-!@#$%^()~|[]{}\"\'\\';
+  var s = '', r = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz:;_-/?<>!@#$%^()~|[]{}\"\'\\+=';
   for (var i=0; i < m; i++) { s += r.charAt(Math.floor(Math.random()*r.length)); }
   return s;
 };
