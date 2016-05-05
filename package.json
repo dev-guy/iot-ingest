@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "DevGuy",
-  "license": "Private",
+  "license": "UNLICENSED",
   "dependencies": {
     "lodash": "^4.11.1",
     "boom": "^3.0.0",
