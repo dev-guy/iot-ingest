@@ -13,7 +13,8 @@ module.exports = {
     module: {
         loaders: [
         {
-                test: path.join(__dirname, 'js'),
+                test: /\.jsx?$/,
+                exclude: /(node_modules|bower_components|ws)/,
                 loader: 'babel-loader',
                 query: {
                   presets: ['es2015'],
