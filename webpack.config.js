@@ -1,21 +1,25 @@
 var path = require('path');
+
 module.exports = {
-    entry: {hash: "./src/hash.js",
-            qprocessor: "./src/qprocessor.js"
-           },
+    entry: {
+      hash: "./src/hash.js",
+      "ingest-ws": "./src/ingest-ws.js"
+    },
+    target: "node",
     output: {
-        path: __dirname,
-        filename: "build/[name].js"
+      path: __dirname,
+      filename: "build/[name].js"
     },
     module: {
         loaders: [
-            {
+        {
+                test: path.join(__dirname, 'js'),
                 loader: 'babel-loader',
-                test: path.resolve(__dirname, 'js'),
                 query: {
-                    presets: ['es2015'],
+                  presets: ['es2015'],
                 },
-            }
+        },
+        { test: /\.json$/, loader: "json"},
         ]
     },
 };
