@@ -4,10 +4,91 @@ and REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 3 };
 
 USE sensor;
 
-CREATE TABLE sensor (partner_id TEXT, name TEXT, id TEXT, location TEXT, 
-    site TEXT, type TEXT, properties map<TEXT,TEXT>, row_id timeuuid, PRIMARY KEY (partner_id,site,location,id));
+CREATE TABLE location (
+  partner_id TEXT,
+  id TEXT,
+  name TEXT,
+  time_zone TEXT,
+  latitude double,
+  longitude double,
+  temperature_scale text
+  zip_code TEXT,
+  PRIMARY KEY (partner_id, id)
+  );
 
-CREATE TABLE measurement_date (sensor_id TEXT, measured_date date, measured timestamp, measure TEXT, 
-    text_value TEXT, double_value double, row_id timeuuid, PRIMARY KEY ((sensor_id, measured_date),measured,measure)) 
-WITH CLUSTERING ORDER BY (measured DESC, measure ASC);
+CREATE TABLE hub (
+  partner_id TEXT,
+  id text,
+  name text,
+  ip_address inet,
+  type text,
+  manufacturer text,
+  location_id TEXT,
+  PRIMARY KEY (partner_id, id)
+);
+
+CREATE TABLE device (
+  partner_id TEXT,
+  hub_id TEXT,
+  id TEXT,
+  name TEXT,
+  label TEXT,
+  displayName TEXT,
+  primary key (hub_id, id)
+);
+
+CREATE TABLE measurement (
+  partner_id TEXT,
+
+  device_id TEXT,
+  event_id TEXT,
+
+  measured timestamp,
+  measured_date date,
+  name TEXT,
+
+  value_type TEXT,
+  text_value TEXT,
+  boolean_value boolean,
+  double_value double,
+  int_value int,
+  long_value long,
+  xyz_value tuple <int,int,int>,
+  PRIMARY KEY ((device_id, name, measured_date),event_id, measured)
+)
+with clustering order by measured DESC;
+
+CREATE TABLE event (
+  partner_id TEXT,
+  device_id TEXT,
+  hub_id TEXT,
+  location_id TEXT,
+  id TEXT,
+
+  name TEXT,
+  description TEXT,
+  description_text TEXT,
+
+  received timestamp,
+  received_date date,
+
+  data map<text, text>,
+
+  value_type TEXT,
+  value_unit TEXT,
+
+  text_value TEXT,
+  boolean_value boolean,
+  double_value double,
+  int_value int,
+  long_value long,
+  xyz_value tuple <int,int,int>,
+
+  is_digital boolean,
+  is_physical boolean,
+  is_state_change boolean,
+
+  PRIMARY KEY ( (hub_id, device_id, received_date), name, id )
+}
+with clustering order by received DESC;
 
