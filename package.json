@@ -13,6 +13,7 @@
     "cassandra-driver": "^3.0.2",
     "commander": "^2.9.0",
     "crypto-js": "^3.1.6",
+    "dataloader": "^1.2.0",
     "graceful-fs": "^4.1.4",
     "hapi": "^11.1.2",
     "joi": "^7.0.1",
