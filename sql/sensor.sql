@@ -9,9 +9,9 @@ CREATE TABLE location (
   id TEXT,
   name TEXT,
   time_zone TEXT,
-  latitude double,
-  longitude double,
-  temperature_scale text
+  latitude float,
+  longitude float,
+  temperature_scale text,
   zip_code TEXT,
   PRIMARY KEY (partner_id, id)
   );
@@ -51,12 +51,14 @@ CREATE TABLE measurement (
   text_value TEXT,
   boolean_value boolean,
   double_value double,
+  float_value float,
   int_value int,
-  long_value long,
+  long_value bigint,
   xyz_value tuple <int,int,int>,
-  PRIMARY KEY ((device_id, name, measured_date),event_id, measured)
+
+  PRIMARY KEY ( (device_id, name, measured_date), measured, event_id)
 )
-with clustering order by measured DESC;
+with clustering order by (measured DESC);
 
 CREATE TABLE event (
   partner_id TEXT,
@@ -81,14 +83,14 @@ CREATE TABLE event (
   boolean_value boolean,
   double_value double,
   int_value int,
-  long_value long,
+  long_value bigint,
   xyz_value tuple <int,int,int>,
 
   is_digital boolean,
   is_physical boolean,
   is_state_change boolean,
 
-  PRIMARY KEY ( (hub_id, device_id, received_date), name, id )
-}
-with clustering order by received DESC;
+  PRIMARY KEY ( (hub_id, device_id, name, received_date), received, id )
+)
+with clustering order by (received DESC);
 
